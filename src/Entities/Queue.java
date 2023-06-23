@@ -1,9 +1,7 @@
 package Entities;
 
 import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 public class Queue {
     protected List<Order> orders  = new ArrayList<>();
@@ -20,16 +18,18 @@ public class Queue {
     }
 
     public void deliverOldest(){
-        this.orders.remove(this.orders.size() - 1);
+        this.orders.remove(0);
     }
 
     @Override
     public String toString() {
-        StringBuilder sb = new StringBuilder();
-        sb.append("Fila:\n");
+        StringBuilder builder = new StringBuilder();
+        builder.append("Fila:\n");
+
         for (int i = 0; i < orders.size(); i++) {
-            sb.append("Pedido ").append(i+1).append(": ").append(orders.get(i).toString()).append("\n");
+            builder.append("Pedido ").append(i+1).append(": ").append(orders.get(i).toString()).append("\n");
         }
-        return sb.toString();
+
+        return builder.toString();
     }
 }

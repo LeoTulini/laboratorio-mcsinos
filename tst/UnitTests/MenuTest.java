@@ -21,12 +21,12 @@ public class MenuTest {
     }
 
     @Test
-    public void intantiateMenu_InvalidArguments_IllegalArgumentException(){
+    public void instantiateMenu_InvalidArguments_IllegalArgumentException(){
         try {
             Menu menu = new Menu(null);
             Assert.fail();
         } catch (IllegalArgumentException ex){
-            Assert.assertEquals("A lista de itens não pode ser nula.", ex.getMessage());
+            Assert.assertEquals("A lista de itens não pode ser nula ou vazia.", ex.getMessage());
         }
     }
 }
