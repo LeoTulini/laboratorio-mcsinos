@@ -32,12 +32,12 @@ public class Main {
     }
 
     private static Menu createMenu() {
-        Item item1 = new Item(Type.BURGUER, "McSinos", true);
-        Item item2 = new Item(Type.BURGUER, "FeeCheddar", true);
-        Item item3 = new Item(Type.BURGUER, "BUFRGS", true);
-        Item item4 = new Item(Type.BEVERAGE, "Coca Gelada", true);
-        Item item5 = new Item(Type.BEVERAGE, "Cerveja velha", true);
-        Item item6 = new Item(Type.BEVERAGE, "Sobra de Ketchup", true);
+        Item item1 = new Item(Type.BURGUER, "McSinos");
+        Item item2 = new Item(Type.BURGUER, "FeeCheddar");
+        Item item3 = new Item(Type.BURGUER, "BUFRGS");
+        Item item4 = new Item(Type.BEVERAGE, "Coca Gelada");
+        Item item5 = new Item(Type.BEVERAGE, "Cerveja velha");
+        Item item6 = new Item(Type.BEVERAGE, "Sobra de Ketchup");
 
         List<Item> items = new ArrayList<>();
         items.add(item1);
@@ -79,7 +79,15 @@ public class Main {
             }
 
             System.out.println(menu.toString());
-            items.add(menu.getItems().get(scanner.nextInt() - 1));
+
+            int chosenItemIndex = scanner.nextInt() - 1;
+
+            if (chosenItemIndex < 0|| chosenItemIndex + 1 > menu.getItems().size()) {
+                System.out.println("Opção inválida!");
+                continue;
+            }
+
+            items.add(menu.getItems().get(chosenItemIndex));
 
             System.out.println("Quantos você gostaria de adicionar?");
 

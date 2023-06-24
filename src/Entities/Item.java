@@ -4,12 +4,8 @@ public class Item {
     protected Type type;
     protected int quantity;
     protected String name;
-    protected boolean isForMenu;
 
-    public Item(Type type, String name, boolean isForMenu) {
-        if (!isForMenu) {
-            validate(quantity);
-        }
+    public Item(Type type, String name) {
         this.type = type;
         this.name = name;
         quantity = 0;
