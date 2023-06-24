@@ -21,7 +21,7 @@ public class ItemTest {
             Item item = new Item(Type.BURGUER, -1, "Hamburgão");
             Assert.fail();
         } catch (IllegalArgumentException ex){
-            Assert.assertEquals("A quantidade de itens não pode ser negativa.", ex.getMessage());
+            Assert.assertEquals("A quantidade de itens não pode ser zero ou negativa.", ex.getMessage());
         }
     }
 }
