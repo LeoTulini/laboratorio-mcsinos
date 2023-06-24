@@ -2,20 +2,42 @@ import Entities.*;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Scanner;
 
 public class Main {
+    private static Scanner scanner = new Scanner(System.in);
+    private static Menu menu;
+    private static Queue queue = new Queue();
+
     public static void main(String[] args) {
-        Menu menu = createMenu();
-        Queue queue = createQueue(menu);
+        menu = createMenu();
+
+        int chosenOption = 0;
+        while (chosenOption != 4) {
+            try {
+
+                printMainMenuOptions();
+                chosenOption = scanner.nextInt();
+
+                if (chosenOption <= 0 || chosenOption > 4) {
+                    throw new IllegalArgumentException("Opção inválida! Tente outra.");
+                }
+
+                printChosenOptionMenu(chosenOption);
+
+            } catch (IllegalArgumentException ex) {
+                System.out.printf(ex.getMessage());
+            }
+        }
     }
 
-    private static Menu createMenu(){
-        Item item1 = new Item(Type.BURGUER, 2, "McSinos");
-        Item item2 = new Item(Type.BURGUER, 10, "FeeCheddar");
-        Item item3 = new Item(Type.BURGUER, 1, "BUFRGS");
-        Item item4 = new Item(Type.BEVERAGE, 5, "Coca Gelada");
-        Item item5 = new Item(Type.BEVERAGE, 4, "Cerveja velha");
-        Item item6 = new Item(Type.BEVERAGE, 1, "Sobra de Ketchup");
+    private static Menu createMenu() {
+        Item item1 = new Item(Type.BURGUER, "McSinos", true);
+        Item item2 = new Item(Type.BURGUER, "FeeCheddar", true);
+        Item item3 = new Item(Type.BURGUER, "BUFRGS", true);
+        Item item4 = new Item(Type.BEVERAGE, "Coca Gelada", true);
+        Item item5 = new Item(Type.BEVERAGE, "Cerveja velha", true);
+        Item item6 = new Item(Type.BEVERAGE, "Sobra de Ketchup", true);
 
         List<Item> items = new ArrayList<>();
         items.add(item1);
@@ -28,29 +50,49 @@ public class Main {
         return new Menu(items);
     }
 
-    private static Queue createQueue(Menu menu){
-        Queue queue = new Queue();
+    public static void printMainMenuOptions() {
+        System.out.println("""
+                \n
+                Escolha o que deseja fazer:
+                1 - Mostrar fila de pedidos
+                2 - Fazer um pedido
+                3 - Entregar o pedido mais antigo
+                4 - Encerrar seu turno
+                """);
+    }
 
-        List<Item> items1 = new ArrayList<>();
-        items1.add(menu.getItems().get(0));
-        items1.add(menu.getItems().get(5));
+    public static void printChosenOptionMenu(int chosenOption) {
+        switch (chosenOption) {
+            case 1 -> System.out.println(queue.toString());
+            case 2 -> printOrderingMenu();
+            case 3 -> queue.deliverOldest();
+        }
+    }
 
-        List<Item> items2 = new ArrayList<>();
-        items1.add(menu.getItems().get(1));
-        items1.add(menu.getItems().get(4));
+    public static void printOrderingMenu() {
+        int chosenOption = -1;
+        ArrayList<Item> items = new ArrayList<>();
 
-        List<Item> items3 = new ArrayList<>();
-        items1.add(menu.getItems().get(2));
-        items1.add(menu.getItems().get(3));
+        while (chosenOption != 0) {
+            if (items.size() == 0) {
+                System.out.print("Escolha um item do cardápio para adicionar ao seu pedido:\n");
+            }
 
-        Order order1 = new Order(items1.toArray(new Item[2]));
-        Order order2 = new Order(items2.toArray(new Item[2]));
-        Order order3 = new Order(items3.toArray(new Item[2]));
+            System.out.println(menu.toString());
+            items.add(menu.getItems().get(scanner.nextInt() - 1));
 
-        queue.add(order1);
-        queue.add(order2);
-        queue.add(order3);
+            System.out.println("Quantos você gostaria de adicionar?");
 
-        return queue;
+            items.get(items.size() - 1).setQuantity(scanner.nextInt());
+
+            System.out.println("Deseja adicionar mais um item ou sair?");
+            System.out.println("Sair - Aperte 0");
+            System.out.println("Fazer mais um pedido - Aperte qualquer outro número");
+
+            chosenOption = scanner.nextInt();
+        }
+
+        Order order = new Order(items.toArray(new Item[0]));
+        queue.add(order);
     }
 }

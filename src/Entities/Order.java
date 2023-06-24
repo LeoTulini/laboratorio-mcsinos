@@ -1,20 +1,24 @@
 package Entities;
 
-import java.util.Arrays;
-
 public class Order {
-    protected Item[] ordered;
+    protected Item[] orderedItems;
 
     public Order(Item[] ordered) {
-        this.ordered = ordered;
+        this.orderedItems = ordered;
     }
 
-    public Item[] getOrdered() {
-        return ordered;
+    public Item[] getOrderedItems() {
+        return orderedItems;
     }
 
     @Override
     public String toString() {
-        return Arrays.toString(ordered);
+        StringBuilder builder = new StringBuilder();
+
+        for (Item ordered: orderedItems) {
+            builder.append(ordered.toString());
+        }
+
+        return builder.toString();
     }
 }
